@@ -162,6 +162,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #	define AI_FORCE_INLINE inline
 #endif // (defined _MSC_VER)
 
+#ifdef __clang__
+#	define AI_WONT_RETURN_SUFFIX  __attribute__((analyzer_noreturn))
+#else
+#	define AI_WONT_RETURN_SUFFIX
+#endif // (defined __clang__)
+
 #ifdef __cplusplus
 	/* No explicit 'struct' and 'enum' tags for C++, this keeps showing up
 	 * in doxydocs.
@@ -232,11 +238,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #	define ASSIMP_BUILD_SINGLETHREADED
 #endif
 
-#ifndef ASSIMP_BUILD_SINGLETHREADED
-#	define AI_C_THREADSAFE
-#endif // !! ASSIMP_BUILD_SINGLETHREADED
-
-#ifdef _DEBUG 
+#if defined(_DEBUG) || ! defined(NDEBUG)
 #	define ASSIMP_BUILD_DEBUG
 #endif
 

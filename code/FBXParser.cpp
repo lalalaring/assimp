@@ -512,7 +512,7 @@ void ReadBinaryDataArray(char type, uint32_t count, const char*& data, const cha
 	ai_assert(data + comp_len == end);
 
 	// determine the length of the uncompressed data by looking at the type signature
-	uint32_t stride;
+	uint32_t stride = 0;
 	switch(type)
 	{
 	case 'f':
@@ -565,7 +565,7 @@ void ReadBinaryDataArray(char type, uint32_t count, const char*& data, const cha
 		// terminate zlib
 		inflateEnd(&zstream);
 	}
-#ifdef _DEBUG
+#ifdef ASSIMP_BUILD_DEBUG
 	else {
 		// runtime check for this happens at tokenization stage
 		ai_assert(false);
